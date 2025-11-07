@@ -36,7 +36,7 @@ import Search from "./Search";
 import TablePaginate, { type Meta } from "./TablePaginate";
 import type { ReactNode } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { IMAGE_CONSTANTA } from "@/const";
+import { IMAGE_CONSTANTA } from "@/const/getImageConstanta";
 
 const TableCustom = (props: Props) => {
 	const {

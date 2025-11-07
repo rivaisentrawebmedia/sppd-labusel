@@ -1,9 +1,4 @@
-import {
-	DaftarAkunPage,
-	LoginPage,
-	LupaPasswordPage,
-	ResetPasswordPassword,
-} from "@/pages/auth";
+import LoginPage from "@/pages/auth/login/LoginPage";
 import NotFoundPage from "@/pages/not-found";
 
 export const authRoutes = [
@@ -11,18 +6,7 @@ export const authRoutes = [
 		path: "login",
 		element: <LoginPage />,
 	},
-	{
-		path: "forget-password",
-		element: <LupaPasswordPage />,
-	},
-	{
-		path: "reset-password",
-		element: <ResetPasswordPassword />,
-	},
-	{
-		path: "sign-up",
-		element: <DaftarAkunPage />,
-	},
+
 	{
 		path: "*",
 		element: <NotFoundPage />,

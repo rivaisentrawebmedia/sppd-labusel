@@ -41,7 +41,11 @@ export const SelectBase = ({
 			</SelectTrigger>
 			<SelectContent>
 				{data.map((item) => (
-					<SelectItem key={item.value.toString()} value={item.value}>
+					<SelectItem
+						className="data-[state=checked]:text-[#145BC5]"
+						key={item.value.toString()}
+						value={item.value}
+					>
 						{item.label}
 					</SelectItem>
 				))}
