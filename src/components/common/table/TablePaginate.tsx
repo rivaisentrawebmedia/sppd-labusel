@@ -1,0 +1,153 @@
+import { useSearchParams } from "react-router-dom";
+import { IoChevronBack, IoChevronForwardOutline } from "react-icons/io5";
+
+export interface Meta {
+	last_page: number;
+	total: number;
+}
+
+interface Props {
+	meta?: Meta;
+	length: number;
+}
+
+const TablePaginate = ({ meta }: Props) => {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const currentPage = parseInt(searchParams.get("page") ?? "1");
+	const limit = Number(searchParams.get("limit") ?? "10");
+
+	const total = meta?.total ?? 0;
+	const lastPage = meta?.last_page ?? 1;
+
+	const start = limit * (currentPage - 1) + 1;
+	const end = Math.min(currentPage * limit, total);
+
+	const updatePage = (page: number) => {
+		const newParams = new URLSearchParams(searchParams);
+		newParams.set("page", page.toString());
+		setSearchParams(newParams);
+	};
+
+	const handleNextPrev = (direction: "next" | "prev") => {
+		const nextPage = direction === "next" ? currentPage + 1 : currentPage - 1;
+		if (nextPage < 1 || nextPage > lastPage) return;
+		updatePage(nextPage);
+	};
+
+	const generatePageNumbers = (): (number | string)[] => {
+		if (lastPage <= 7) return Array.from({ length: lastPage }, (_, i) => i + 1);
+
+		if (currentPage <= 4) {
+			return [1, 2, 3, 4, 5, "...", lastPage];
+		}
+
+		if (currentPage >= lastPage - 3) {
+			return [
+				1,
+				"...",
+				lastPage - 4,
+				lastPage - 3,
+				lastPage - 2,
+				lastPage - 1,
+				lastPage,
+			];
+		}
+
+		return [
+			1,
+			"...",
+			currentPage - 1,
+			currentPage,
+			currentPage + 1,
+			"...",
+			lastPage,
+		];
+	};
+
+	const pages = generatePageNumbers();
+
+	return (
+		<div className="flex flex-col gap-2 items-start lg:flex-row lg:items-center justify-between">
+			<p>
+				Menampilkan Data ke {start} - {end} dari{" "}
+				{new Intl.NumberFormat("id-ID").format(total)} data
+			</p>
+
+			<div className="flex items-center p-2 border border-[#C6E7B2] !bg-[#F5F5FF] rounded-lg text-xs lg:text-base gap-2">
+				<NavButton
+					icon={<IoChevronBack className="text-white" />}
+					disabled={currentPage <= 1}
+					onClick={() => handleNextPrev("prev")}
+				/>
+
+				{pages.map((page, index) =>
+					page === "..." ? (
+						<Ellipsis key={index} />
+					) : (
+						<PageButton
+							key={index}
+							page={page}
+							active={page === currentPage}
+							onClick={() => updatePage(Number(page))}
+						/>
+					)
+				)}
+
+				<NavButton
+					icon={<IoChevronForwardOutline className="text-white" />}
+					disabled={currentPage >= lastPage}
+					onClick={() => handleNextPrev("next")}
+				/>
+			</div>
+		</div>
+	);
+};
+
+export default TablePaginate;
+
+// --- Sub-components ---
+
+const NavButton = ({
+	icon,
+	disabled,
+	onClick,
+}: {
+	icon: React.ReactNode;
+	disabled: boolean;
+	onClick: () => void;
+}) => (
+	<button
+		onClick={onClick}
+		className="!bg-primary p-1.5 rounded-md disabled:opacity-50 hover:disabled:!bg-primary hover:disabled:text-gray-500 hover:bg-primary hover:text-white"
+		disabled={disabled}
+	>
+		{icon}
+	</button>
+);
+
+const PageButton = ({
+	page,
+	active,
+	onClick,
+}: {
+	page: number | any;
+	active: boolean;
+	onClick: () => void;
+}) => (
+	<button
+		onClick={onClick}
+		className={`px-2 py-1 duration-300 transition-colors rounded-md border ${
+			active
+				? "!bg-primary text-white"
+				: " hover:bg-primary/20 hover:text-white text-primary"
+		}`}
+	>
+		{page}
+	</button>
+);
+
+const Ellipsis = () => (
+	<span className="px-2 py-1 text-gray-500 border rounded-md bg-white cursor-default">
+		...
+	</span>
+);
