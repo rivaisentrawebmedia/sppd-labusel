@@ -5,9 +5,6 @@ import NotFoundPage from "@/pages/not-found";
 import { authRoutes } from "./routes/auth.routes";
 import { MainLayout } from "@/layouts";
 import { BerandaPage } from "@/pages/modules/beranda/view/BerandaPage";
-import ProfilPage from "@/pages/modules/profil/view/ProfilPage";
-import { aktivitasRoutes } from "./routes/aktivitas.routes";
-import { layananRoutes } from "./routes/layanan.routes";
 
 export const Router = createBrowserRouter([
 	{
@@ -26,9 +23,6 @@ export const Router = createBrowserRouter([
 				element: <MainLayout />,
 				children: [
 					{ path: "dashboard", element: <BerandaPage /> },
-					{ path: "profil", element: <ProfilPage /> },
-					...aktivitasRoutes,
-					...layananRoutes,
 
 					{
 						path: "*",

@@ -13,17 +13,14 @@ import { Link } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import { usePostLogout } from "@/layouts/constroller";
 import { DialogCustom } from "@/components/common/dialog";
-import { Image } from "@/components/common/image/getImage";
-import { useGetProfil } from "@/pages/modules/profil/controller";
 
 export function AvatarGroup({ loading }: { loading: boolean }) {
 	const [triger, setTriger] = useState<boolean>(false);
 	const [isShow, setIsShow] = useState<boolean>(false);
-	const { data: profil, loading: loadingProfil } = useGetProfil();
 
 	const { handleLogout, loading: loadingLogout } = usePostLogout();
 
-	const disabled = loading || loadingLogout || loadingProfil;
+	const disabled = loading || loadingLogout;
 
 	return (
 		<>
@@ -39,19 +36,19 @@ export function AvatarGroup({ loading }: { loading: boolean }) {
 									triger ? "bg-gray-200/30" : ""
 								}`}
 							>
-								<Image
+								{/* <Image
 									alt={profil?.nama_warga || ""}
 									src={profil?.photo || ""}
 									classNameImage="w-8 h-8 rounded-full object-cover"
 									classNamePlaceHolder="w-8 h-8 rounded-full bg-white/50 flex items-center justify-center text-white font-semibold text-sm uppercase select-none"
-								/>
+								/> */}
 								<FaCaretDown className="text-white text-xl" />
 							</div>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end" className="texs-sm">
 							<DropdownMenuLabel>
 								<div className="flex items-center gap-2">
-									<Image
+									{/* <Image
 										alt={profil?.nama_warga || ""}
 										src={profil?.photo || ""}
 										classNameImage="w-8 h-8 rounded-full object-cover"
@@ -60,7 +57,7 @@ export function AvatarGroup({ loading }: { loading: boolean }) {
 
 									<p className="flex-1 text-wrap">
 										{profil?.nama_warga || "Indosistem"}
-									</p>
+									</p> */}
 								</div>
 							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
